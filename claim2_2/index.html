@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Claim 2.2 — entity chains</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.css" />
+    <style>
+      #boot { font: 15px/1.5 system-ui, sans-serif; color: #4b5563; max-width: 36rem; margin: 18vh auto; padding: 0 16px; }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="boot">
+        <strong>Claim 2.2 — entity chains</strong><br />
+        Starting Python in your browser (Pyodide + Streamlit). The first load takes 20–40 seconds;
+        after that, switching articles fetches only that article's data.
+      </div>
+    </div>
+    <script type="module">
+      import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.js";
+      const here = (p) => new URL(p, location.href).href;
+      const files = Object.fromEntries(["analysis/per_article_subcategory_stacked_bars.py", "analysis/claim1/__init__.py", "analysis/claim1/boilerplate.py", "analysis/claim1/per_article_subcategory_stacked_bars_by_comment_count.py", "analysis/claim3/__init__.py", "analysis/claim3/common.py", "analysis/claim2_2/__init__.py", "analysis/claim2_2/common.py", "analysis/claim2_2/entities.py", "analysis/claim2_2/graph.py", "analysis/claim2_2/metrics.py", "analysis/claim2_2/figures.py", "analysis/claim2_2/dashboard.py", "app.py", "webdata.py"].map((p) => [p, { url: here("py/" + p) + "?v=ee734a631636" }]));
+      files["webconfig.py"] = `BASE = ${JSON.stringify(here("data/"))}\nVERSION = "ee734a631636"\n`;
+      mount(
+        {
+          requirements: ["networkx"],
+          entrypoint: "app.py",
+          files,
+          streamlitConfig: { "client.toolbarMode": "viewer" },
+        },
+        document.getElementById("root"),
+      );
+    </script>
+  </body>
+</html>
